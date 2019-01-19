@@ -15,13 +15,11 @@ namespace cfx {
         uri_builder endpointBuilder;
 
         endpointBuilder.set_scheme(endpointURI.scheme());
-        if (endpointURI.host() == U("host_auto_ip4")) {
+        if (endpointURI.host() == _XPLATSTR("host_auto_ip4")) {
             endpointBuilder.set_host(NetworkUtils::hostIP4());
-            //endpointBuilder.set_host(U("127.0.0.1"));
+        } else if (endpointURI.host() == _XPLATSTR("host_auto_ip6")) {
+            endpointBuilder.set_host(NetworkUtils::hostIP6());
         }
-//        else if (endpointURI.host() == U("host_auto_ip6")) {
-//            endpointBuilder.set_host(NetworkUtils::hostIP6());
-//        }
         endpointBuilder.set_port(endpointURI.port());
         endpointBuilder.set_path(endpointURI.path());
 

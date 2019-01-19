@@ -17,9 +17,13 @@ namespace cfx {
         static utility::string_t hostIP(unsigned short family);
 
     public:
-        // gets the host IP4 string formatted
         static utility::string_t hostIP4() {
             return hostIP(AF_INET);
+        }
+
+        static utility::string_t hostIP6() {
+
+            return hostIP(AF_INET6);
         }
     };
 
