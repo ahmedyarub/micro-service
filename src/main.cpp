@@ -19,15 +19,15 @@ int main(int argc, const char *argv[]) {
 
     map<utility::string_t, Currency *> cache;
 
-//    soci::rowset<boost::tuple<string, double>> rowset = (sql.prepare
-//            << "SELECT currency, value FROM Currency");
+    soci::rowset<boost::tuple<string, double>> rowset = (sql.prepare
+            << "SELECT currency, value FROM Currency");
 
     cache[U("USD")] = new Currency(U("USD"), 1);
 
-//    for (auto &r : rowset) {
-//        boost::tuple<string, double> record = r;
-//        cache[record.get<0>()] = new Currency(record.get<0>(), record.get<1>());
-//    }
+    for (auto &r : rowset) {
+        boost::tuple<string, double> record = r;
+        cache[record.get<0>()] = new Currency(record.get<0>(), record.get<1>());
+    }
 
     MicroserviceController *server = new MicroserviceController(cache);
     server->setEndpoint(U("http://host_auto_ip4:6502/v1/service/api"));
@@ -35,7 +35,7 @@ int main(int argc, const char *argv[]) {
 
     try {
         server->accept().wait();
-        //std::cout << "Listening on: " << server->endpoint() << '\n';
+        std::cout << "Listening on: " << server->endpoint() << '\n';
 
         InterruptHandler::waitForUserInterrupt();
 

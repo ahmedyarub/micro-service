@@ -2,19 +2,16 @@ cmake_minimum_required(VERSION 3.0)
 
 project(micro-service)
 
-#list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
 if (POLICY CMP0012)
     CMAKE_POLICY(SET CMP0012 NEW)
 endif ()
 
-find_package(cpprestsdk REQUIRED)
-find_package(Boost REQUIRED COMPONENTS random system thread filesystem chrono atomic date_time regex) #format
+find_package(cpprestsdk REQUIRED PATHS "/usr/lib/x86_64-linux-gnu/cmake/")
+find_package(Boost REQUIRED COMPONENTS random system thread filesystem chrono atomic date_time regex)
 find_package(OpenSSL 1.0.1 REQUIRED)
 
 set(LIB_SUFFIX "64")
-find_package(Soci REQUIRED COMPONENTS sqlite3
-        CONFIGS "SOCI.cmake"
-        )
+find_package(Soci REQUIRED COMPONENTS sqlite3 CONFIGS "SOCI.cmake")
 
 set(OPENSSL_VERSION "1.0.1")
 
@@ -26,7 +23,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(${PROJECT_NAME} main.cpp
         microsvc_controller.cpp
-        #        foundation/network_utils.cpp
+        foundation/network_utils.cpp
         foundation/basic_controller.cpp)
 
 set(MICROSERVICE_INCLUDE_DIR "foundation/include")
@@ -46,6 +43,6 @@ target_link_libraries(${PROJECT_NAME}
         Boost::date_time
         Boost::regex
         OpenSSL::SSL
-        SOCI::soci_core_static
-        SOCI::soci_sqlite3_static
-        )#Boost::format
+        SOCI::soci_core
+        SOCI::soci_sqlite3
+        )

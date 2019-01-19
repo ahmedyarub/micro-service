@@ -1,5 +1,5 @@
 #include "basic_controller.hpp"
-//#include "network_utils.hpp"
+#include "network_utils.hpp"
 
 namespace cfx {
     BasicController::BasicController() {
@@ -16,8 +16,8 @@ namespace cfx {
 
         endpointBuilder.set_scheme(endpointURI.scheme());
         if (endpointURI.host() == U("host_auto_ip4")) {
-            //endpointBuilder.set_host(NetworkUtils::hostIP4());
-            endpointBuilder.set_host(U("127.0.0.1"));
+            endpointBuilder.set_host(NetworkUtils::hostIP4());
+            //endpointBuilder.set_host(U("127.0.0.1"));
         }
 //        else if (endpointURI.host() == U("host_auto_ip6")) {
 //            endpointBuilder.set_host(NetworkUtils::hostIP6());
