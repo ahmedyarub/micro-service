@@ -34,7 +34,7 @@ SET(_SOCI_REQUIRED_VARS  SOCI_INCLUDE_DIR SOCI_LIBRARY)
 #
 FIND_PATH(
         SOCI_INCLUDE_DIR soci.h
-        PATH "/usr/local"
+        PATH "/usr/local" "C:/Program Files (x86)/SOCI/include"
         PATH_SUFFIXES "" "soci"
         DOC "Soci (http://soci.sourceforge.net) include directory")
 MARK_AS_ADVANCED(SOCI_INCLUDE_DIR)

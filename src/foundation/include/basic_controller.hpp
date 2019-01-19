@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <cpprest/http_listener.h>
 #include <pplx/pplxtasks.h>
 #include "controller.hpp"
@@ -15,17 +14,21 @@ namespace cfx {
 
     public:
         BasicController();
+
         ~BasicController();
 
-        void setEndpoint(const std::string & value);
-        std::string endpoint() const;
+        void setEndpoint(const utility::string_t &value);
+
+        utility::string_t endpoint() const;
+
         pplx::task<void> accept();
+
         pplx::task<void> shutdown();
 
-        virtual void initRestOpHandlers() { 
-            /* had to be implemented by the child class */ 
+        virtual void initRestOpHandlers() {
+
         }
 
-        std::vector<utility::string_t> requestPath(const http_request & message);
+        std::vector<utility::string_t> requestPath(const http_request &message);
     };
 }

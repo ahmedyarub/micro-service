@@ -2,7 +2,7 @@
 
 #define BOOST_SPIRIT_THREADSAFE // enable thread safety to json read on property tree!
 
-#include <boost/format.hpp>
+//#include <boost/format.hpp>
 
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>
@@ -17,7 +17,6 @@
 #include <boost/asio.hpp>
 #include <boost/algorithm/string.hpp>
 
-#include <string>
 #include <iostream>
 #include <vector>
 #include <map>

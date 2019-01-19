@@ -1,8 +1,5 @@
 #include <std_micro_service.hpp>
 #include "microsvc_controller.hpp"
-#include "models/currency.hpp"
-#include <soci/soci.h>
-#include <soci/sqlite3/soci-sqlite3.h>
 
 using namespace web;
 using namespace http;
@@ -14,20 +11,23 @@ void MicroserviceController::initRestOpHandlers() {
 void MicroserviceController::handleGet(http_request request) {
     auto path = requestPath(request);
     if (!path.empty()) {
-        if (path[0] == "convert") {
+        if (path[0] == U("convert")) {
             Currency cur;
 
-            soci::session sql(*soci::factory_sqlite3(), "/tmp/microservice.db");
-            sql << "SELECT currency, value FROM Currency WHERE id=1", soci::into(cur.currency), soci::into(cur.value);
 
             auto query_parameters = uri::split_query(request.request_uri().query());
 
             auto response = json::value::object();
-            auto from_currency = query_parameters["from"];
-            auto to_currency = query_parameters["to"];
-            auto amount = boost::lexical_cast<double>(query_parameters["amount"]);
+            auto from_currency = cache[query_parameters[U("from")]];
+            auto to_currency = cache[query_parameters[U("to")]];
+            auto amount = boost::lexical_cast<double>(query_parameters[U("amount")]);
 
-            response["result"] = json::value::number(cur.value * amount);
+            if (from_currency == NULL || to_currency == NULL) {
+                request.reply(status_codes::NotFound);
+                return;
+            }
+
+            response[U("result")] = json::value::number(from_currency->value / to_currency->value * amount);
 
             request.reply(status_codes::OK, response);
         }

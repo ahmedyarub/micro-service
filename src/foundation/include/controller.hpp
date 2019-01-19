@@ -7,7 +7,7 @@ using namespace http;
 
 namespace cfx {
     class Controller {
-    public: 
+    public:
         virtual void handleGet(http_request message) = 0;
     };
 }
