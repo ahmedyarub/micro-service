@@ -26,7 +26,7 @@ int main(int argc, const char *argv[]) {
     for (auto &r : rowset) {
         cache[utility::conversions::to_string_t(r.get<utility::string_t>(0))] =
                 new Currency(utility::conversions::to_string_t(r.get<utility::string_t>(0)),
-                             r.get<double>(0));
+                             r.get<double>(1));
     }
 
     MicroserviceController *server = new MicroserviceController(cache);
