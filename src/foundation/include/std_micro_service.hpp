@@ -1,7 +1,5 @@
 #pragma once
 
-#define BOOST_SPIRIT_THREADSAFE // enable thread safety to json read on property tree!
-
 //#include <boost/format.hpp>
 
 #include <boost/log/core.hpp>

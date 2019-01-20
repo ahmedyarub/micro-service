@@ -13,9 +13,9 @@ private:
 public:
     rediscache();
 
-    void add(Currency *currency);
+    void add(Currency *currency) override;
 
-    Currency *get(const utility::string_t &currency);
+    Currency *get(const utility::string_t &currency) override;
 };
 
 

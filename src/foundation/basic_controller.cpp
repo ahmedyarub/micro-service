@@ -4,9 +4,7 @@
 namespace cfx {
     BasicController::BasicController() = default;
 
-    BasicController::~BasicController() {
-
-    }
+    BasicController::~BasicController() = default;
 
     void BasicController::setEndpoint(const utility::string_t &value) {
         uri endpointURI(value);
