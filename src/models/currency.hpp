@@ -7,7 +7,7 @@ using namespace std;
 
 class Currency {
 public:
-    utility::string_t currency;
+    utility::string_t currency{};
     double value;
 
     Currency() = default;

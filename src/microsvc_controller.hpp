@@ -2,17 +2,18 @@
 
 #include <basic_controller.hpp>
 #include "models/currency.hpp"
+#include "cache/icache.hpp"
 
 using namespace cfx;
 
 class MicroserviceController : public BasicController, Controller {
 private:
-    map<utility::string_t, Currency *> cache;
+    icache *cache;
 
 public:
-    MicroserviceController(map<utility::string_t, Currency *> cache) : cache{cache} {}
+    MicroserviceController(icache *cache);
 
-    ~MicroserviceController() {}
+    ~MicroserviceController() = default;
 
     void handleGet(http_request request) override;
 

@@ -18,14 +18,17 @@ set(OPENSSL_VERSION "1.0.1")
 ADD_DEFINITIONS(-DBOOST_LOG_DYN_LINK)
 ADD_DEFINITIONS(-D_WIN32_WINDOWS)
 ADD_DEFINITIONS(-D_TURN_OFF_PLATFORM_STRING=OFF)
-set(CMAKE_CXX_STANDARD 11)
+ADD_DEFINITIONS(-D_WINSOCK_DEPRECATED_NO_WARNINGS)
+
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(${PROJECT_NAME} main.cpp
         microsvc_controller.cpp
         foundation/network_utils.cpp
-        foundation/basic_controller.cpp)
+        foundation/basic_controller.cpp
+        cache/map_cache.cpp)
 
 set(MICROSERVICE_INCLUDE_DIR "foundation/include")
 set(SOCI_INCLUDE_DIR "C:/Program Files (x86)/SOCI/include")
@@ -44,6 +47,8 @@ target_link_libraries(${PROJECT_NAME}
         Boost::date_time
         Boost::regex
         OpenSSL::SSL
-        SOCI::soci_core
-        SOCI::soci_sqlite3
+        #        SOCI::soci_core
+        #        SOCI::soci_sqlite3
+        SOCI::soci_core_static
+        SOCI::soci_sqlite3_static
         )

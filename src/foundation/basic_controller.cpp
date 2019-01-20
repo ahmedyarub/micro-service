@@ -2,9 +2,7 @@
 #include "network_utils.hpp"
 
 namespace cfx {
-    BasicController::BasicController() {
-
-    }
+    BasicController::BasicController() = default;
 
     BasicController::~BasicController() {
 

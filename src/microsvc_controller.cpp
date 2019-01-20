@@ -1,8 +1,27 @@
 #include <std_micro_service.hpp>
 #include "microsvc_controller.hpp"
 
+#include <soci/soci.h>
+#include <soci/sqlite3/soci-sqlite3.h>
+
 using namespace web;
 using namespace http;
+
+MicroserviceController::MicroserviceController(icache *cache) {
+    //soci::session sql(*soci::factory_sqlite3(), "/tmp/microservice.db");
+    soci::session sql(*soci::factory_sqlite3(), "d:/tmp/microservice.db");
+
+    soci::rowset<soci::row> rowset = (sql.prepare << "SELECT currency, value FROM Currency");
+
+    cache->add(new Currency(_XPLATSTR("USD"), 1));
+
+    for (auto &r : rowset) {
+        cache->add(new Currency(utility::conversions::to_string_t(r.get<std::string>(0)),
+                                r.get<double>(1)));
+    }
+
+    this->cache = cache;
+}
 
 void MicroserviceController::initRestOpHandlers() {
     _listener.support(methods::GET, std::bind(&MicroserviceController::handleGet, this, std::placeholders::_1));
@@ -18,11 +37,11 @@ void MicroserviceController::handleGet(http_request request) {
             auto query_parameters = uri::split_query(request.request_uri().query());
 
             auto response = json::value::object();
-            auto from_currency = cache[query_parameters[_XPLATSTR("from")]];
-            auto to_currency = cache[query_parameters[_XPLATSTR("to")]];
+            auto from_currency = cache->get(query_parameters[_XPLATSTR("from")]);
+            auto to_currency = cache->get(query_parameters[_XPLATSTR("to")]);
             auto amount = boost::lexical_cast<double>(query_parameters[_XPLATSTR("amount")]);
 
-            if (from_currency == NULL || to_currency == NULL) {
+            if (from_currency == nullptr || to_currency == nullptr) {
                 request.reply(status_codes::NotFound);
                 return;
             }

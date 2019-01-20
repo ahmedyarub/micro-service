@@ -1,7 +1,7 @@
 #include <condition_variable>
 #include <mutex>
 #include <iostream>
-#include <signal.h>
+#include <csignal>
 
 static std::condition_variable _condition;
 static std::mutex _mutex;
