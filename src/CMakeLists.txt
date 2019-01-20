@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.0)
 
 project(micro-service)
 
+if (COMMAND cmake_policy)
+    cmake_policy(SET CMP0003 NEW)
+endif (COMMAND cmake_policy)
+
 if (POLICY CMP0012)
     CMAKE_POLICY(SET CMP0012 NEW)
 endif ()
@@ -9,6 +13,9 @@ endif ()
 find_package(cpprestsdk REQUIRED PATHS "/usr/lib/x86_64-linux-gnu/cmake/")
 find_package(Boost REQUIRED COMPONENTS random system thread filesystem chrono atomic date_time regex)
 find_package(OpenSSL 1.0.1 REQUIRED)
+
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(cpp-redis REQUIRED)
 
 set(LIB_SUFFIX "64")
 find_package(Soci REQUIRED COMPONENTS sqlite3 CONFIGS "SOCI.cmake")
@@ -28,7 +35,7 @@ add_executable(${PROJECT_NAME} main.cpp
         microsvc_controller.cpp
         foundation/network_utils.cpp
         foundation/basic_controller.cpp
-        cache/map_cache.cpp)
+        cache/redis_cache.cpp)
 
 set(MICROSERVICE_INCLUDE_DIR "foundation/include")
 set(SOCI_INCLUDE_DIR "C:/Program Files (x86)/SOCI/include")
@@ -51,4 +58,5 @@ target_link_libraries(${PROJECT_NAME}
         #        SOCI::soci_sqlite3
         SOCI::soci_core_static
         SOCI::soci_sqlite3_static
+        cpp_redis
         )

@@ -4,7 +4,7 @@
 #include "di.hpp"
 
 #include "microsvc_controller.hpp"
-#include "cache/map_cache.hpp"
+#include "cache/redis_cache.hpp"
 
 using namespace web;
 using namespace cfx;
@@ -14,7 +14,7 @@ namespace di = boost::di;
 int main(int argc, const char *argv[]) {
     InterruptHandler::hookSIGINT();
 
-    di::bind<icache>().to<mapcache>();
+    di::bind<icache>().to<rediscache>();
 
     auto *server = di::make_injector().create<MicroserviceController *>();
     server->setEndpoint(_XPLATSTR("http://host_auto_ip4:6502/v1/service/api"));
