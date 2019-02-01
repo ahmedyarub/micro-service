@@ -7,7 +7,5 @@ addons:
     packages:
       - openssl
       - libcpprest-dev
-      - libboost-log1.65-dev
-      - libboost-program-options1.65-dev
       - sqlite3
       - libsqlite3-dev
