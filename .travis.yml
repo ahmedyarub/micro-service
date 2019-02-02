@@ -5,6 +5,7 @@ compiler:
 addons:
   apt:
     packages:
+      - wget
       - openssl
       - libssl-dev
       - pkg-config
