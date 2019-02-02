@@ -8,8 +8,8 @@ using namespace web;
 using namespace http;
 
 MicroserviceController::MicroserviceController(icache *cache) {
-    //soci::session sql(*soci::factory_sqlite3(), "/tmp/microservice.db");
-    soci::session sql(*soci::factory_sqlite3(), "d:/tmp/microservice.db");
+    soci::session sql(*soci::factory_sqlite3(), "/tmp/microservice.db");
+    //soci::session sql(*soci::factory_sqlite3(), "d:/tmp/microservice.db");
 
     soci::rowset<soci::row> rowset = (sql.prepare << "SELECT currency, value FROM Currency");
 

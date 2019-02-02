@@ -54,9 +54,10 @@ target_link_libraries(${PROJECT_NAME}
         Boost::date_time
         Boost::regex
         OpenSSL::SSL
-        #        SOCI::soci_core
-        #        SOCI::soci_sqlite3
-        SOCI::soci_core_static
-        SOCI::soci_sqlite3_static
+        SOCI::soci_core
+        SOCI::soci_sqlite3
+        #        SOCI::soci_core_static
+        #        SOCI::soci_sqlite3_static
         cpp_redis
+        tacopie
         )
