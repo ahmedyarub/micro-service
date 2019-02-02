@@ -1,5 +1,6 @@
 language: cpp
 dist: xenial
+sudo: true
 compiler:
   - gcc
 addons:
@@ -19,7 +20,7 @@ before_script:
   - mkdir build && cd build
   - cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF -DBUILD_SAMPLES=OFF
   - make -j4
-  - make install
+  - sudo make install
   - rm -Rf /tmp/cpprestsdk
   - cd /tmp
   - git clone git://github.com/SOCI/soci.git
@@ -27,7 +28,7 @@ before_script:
   - cd soci/build
   - cmake -DWITH_SQLITE3=ON DSOCI_TESTS=OFF ..
   - make -j4
-  - make install
+  - sudo make install
   - rm -Rf /tmp/soci
   - cd /tmp
   - git clone https://github.com/Cylix/cpp_redis.git
@@ -36,7 +37,7 @@ before_script:
   - mkdir build && cd build
   - cmake .. -DCMAKE_BUILD_TYPE=Release
   - make -j4
-  - make install
+  - sudo make install
   - rm -Rf /tmp/cpp_redis
   - cd "${TRAVIS_BUILD_DIR}"
   - mkdir build && cd build
