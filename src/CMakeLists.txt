@@ -19,6 +19,11 @@ pkg_check_modules(cpp-redis REQUIRED)
 
 set(LIB_SUFFIX "64")
 find_package(Soci REQUIRED COMPONENTS sqlite3 CONFIGS "SOCI.cmake")
+if (WIN32)
+    set(SOCI_LIBS SOCI::soci_core_static SOCI::soci_sqlite3_static)
+else ()
+    set(SOCI_LIBS SOCI::soci_core SOCI::soci_sqlite3)
+endif ()
 
 set(OPENSSL_VERSION "1.0.1")
 
@@ -54,10 +59,7 @@ target_link_libraries(${PROJECT_NAME}
         Boost::date_time
         Boost::regex
         OpenSSL::SSL
-        SOCI::soci_core
-        SOCI::soci_sqlite3
-        #        SOCI::soci_core_static
-        #        SOCI::soci_sqlite3_static
+        ${SOCI_LIBS}
         cpp_redis
         tacopie
         )

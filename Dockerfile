@@ -24,7 +24,7 @@ RUN cd /tmp && \
     git clone git://github.com/SOCI/soci.git && \
     mkdir soci/build && \
     cd soci/build && \
-    cmake -DWITH_SQLITE3=ON -DSOCI_TESTS=OFF .. && \
+    cmake -DWITH_SQLITE3=ON -DSOCI_TESTS=OFF -DSOCI_CXX_C11=ON .. && \
     make -j4 && \
     make install && \
     rm -Rf /tmp/soci
