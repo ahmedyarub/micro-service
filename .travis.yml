@@ -4,10 +4,8 @@ matrix:
     - os: linux
       dist: xenial
       sudo: true
-      compiler:
-        - gcc
+      compiler: gcc
       cache:
-        apt: true
         directories:
           - ${TRAVIS_BUILD_DIR}/built_deps
       addons:
