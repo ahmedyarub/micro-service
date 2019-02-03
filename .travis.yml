@@ -1,22 +1,27 @@
 language: cpp
-dist: xenial
-sudo: true
-compiler:
-  - gcc
-addons:
-  apt:
-    packages:
-      - openssl
-      - libssl-dev
-      - pkg-config
-      - libboost-all-dev
-      - sqlite3
-      - libsqlite3-dev
+matrix:
+  include:
+    - os: linux
+      dist: xenial
+      sudo: true
+      compiler:
+        - gcc
+      cache:
+        apt: true
+        directories:
+          - ${TRAVIS_BUILD_DIR}/built_deps
+      addons:
+        apt:
+          packages:
+            - openssl
+            - libssl-dev
+            - pkg-config
+            - libboost-all-dev
+            - sqlite3
+            - libsqlite3-dev
 before_script:
   - cd "${TRAVIS_BUILD_DIR}"
-  - cd scripts
-  - ./build_deps.sh
-  - cd ..
+  - ./scripts/build_deps.sh
   - mkdir build && cd build
   - cmake ..
 script:
