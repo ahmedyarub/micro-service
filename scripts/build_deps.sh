@@ -46,5 +46,3 @@ fi
 make -j${JOBS}
 sudo make install
 cd ../../
-
-rm -Rf deps
