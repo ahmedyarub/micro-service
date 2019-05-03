@@ -4,8 +4,12 @@
 #include <soci/soci.h>
 #include <soci/sqlite3/soci-sqlite3.h>
 
+#include "cpprest/containerstream.h"
+#include "cpprest/filestream.h"
+
 using namespace web;
 using namespace http;
+using namespace concurrency::streams;
 
 MicroserviceController::MicroserviceController(icache *cache) {
 #ifdef _WIN32
@@ -52,6 +56,19 @@ void MicroserviceController::handleGet(http_request request) {
             response[_XPLATSTR("result")] = json::value::number(from_currency->value / to_currency->value * amount);
 
             request.reply(status_codes::OK, response);
+        } else {
+            try {
+                file_stream<uint8_t>::open_istream(_XPLATSTR("/home/osboxes/Documents/asmttpd/web_root/" + path[0]))
+                        .then([=](Concurrency::streams::istream inFile) -> pplx::task<void> {
+                            return request.reply(status_codes::OK, inFile.streambuf(), "text/html; charset=utf-8").then(
+                                    [=]() {
+                                        return inFile.close();
+                                    });
+                        }).get();
+            }
+            catch (...) {
+                request.reply(status_codes::NotFound);
+            }
         }
     } else {
         request.reply(status_codes::NotFound);

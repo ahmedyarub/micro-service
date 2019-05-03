@@ -5,7 +5,7 @@ docker build . --tag=microservice:latest
 docker run -it microservice:latest
 
 Ex de URL de Teste:
-http://127.0.0.1:6502/v1/service/api/convert?from=USD&to=EUR&amount=123.45
+http://127.0.0.1:8088/convert?from=USD&to=EUR&amount=123.45
 
 Obs: o IP no Docker pode ser diferente!
 
