@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ahmedyarub/micro-service.svg?branch=master)](https://travis-ci.org/ahmedyarub/micro-service)
+[![Build Status](https://travis-ci.com/ahmedyarub/micro-service.svg?branch=master)](https://travis-ci.com/ahmedyarub/micro-service)
 
 Docker:
 docker build . --tag=microservice:latest
