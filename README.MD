@@ -32,7 +32,7 @@ git clone git://github.com/SOCI/soci.git
 cd soci/
 mkdir build
 cd build
-cmake -DWITH_SQLITE3=ON -DSOCI_TESTS=OFF -DSOCI_CXX_C11=ON ..
+cmake -DWITH_SQLITE3=ON -DWITH_MYSQL=OFF -DSOCI_TESTS=OFF ..
 make
 sudo make install
 
@@ -54,6 +54,6 @@ git clone https://github.com/SOCI/soci
 cd soci
 mkdir build
 cd build
-cmake -DCMAKE_TOOLCHAIN_FILE=D:/cpp/vcpkg/scripts/buildsystems/vcpkg.cmake -DWITH_SQLITE3=ON -DSOCI_TESTS=OFF ..
+cmake -DCMAKE_TOOLCHAIN_FILE=D:/cpp/vcpkg/scripts/buildsystems/vcpkg.cmake -DWITH_SQLITE3=ON -DWITH_MYSQL=OFF -DSOCI_TESTS=OFF ..
 MSBuild /p:Configuration=Release ALL_BUILD.vcxproj
 MSBuild /p:Configuration=Release INSTALL.vcxproj
