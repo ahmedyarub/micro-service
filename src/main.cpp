@@ -17,7 +17,7 @@ int main(int argc, const char *argv[]) {
     di::bind<icache>().to<rediscache>();
 
     auto *server = di::make_injector().create<MicroserviceController *>();
-    server->setEndpoint(_XPLATSTR("http://0.0.0.0:8088"));
+    server->setEndpoint(_XPLATSTR("http://127.0.0.1:8088"));
 
     try {
         server->accept().wait();

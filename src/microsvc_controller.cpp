@@ -60,7 +60,8 @@ void MicroserviceController::handleGet(http_request request) {
             try {
                 file_stream<uint8_t>::open_istream(_XPLATSTR("/home/osboxes/Documents/asmttpd/web_root/" + path[0]))
                         .then([=](Concurrency::streams::istream inFile) -> pplx::task<void> {
-                            return request.reply(status_codes::OK, inFile.streambuf(), "text/html; charset=utf-8").then(
+                            return request.reply(status_codes::OK, inFile.streambuf(),
+                                                 _XPLATSTR("text/html; charset=utf-8")).then(
                                     [=]() {
                                         return inFile.close();
                                     });

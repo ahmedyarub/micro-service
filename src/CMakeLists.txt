@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.6)
 
 project(micro-service)
 
@@ -43,7 +43,7 @@ add_executable(${PROJECT_NAME} main.cpp
         cache/redis_cache.cpp)
 
 set(MICROSERVICE_INCLUDE_DIR "foundation/include")
-set(SOCI_INCLUDE_DIR "C:/Program Files (x86)/SOCI/include")
+set(SOCI_INCLUDE_DIR "C:/Program Files/SOCI/include")
 
 include_directories(${MICROSERVICE_INCLUDE_DIR})
 include_directories(${SOCI_INCLUDE_DIR})
