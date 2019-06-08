@@ -1,1 +1,3 @@
 build/*
+# Project exclude paths
+/cmake-build-release-visual-studio/
