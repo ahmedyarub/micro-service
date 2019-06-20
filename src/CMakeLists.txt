@@ -46,11 +46,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(${PROJECT_NAME}
         main.cpp
-        #        main.cpp
-        #        microsvc_controller.cpp
-        #        foundation/network_utils.cpp
-        #        foundation/basic_controller.cpp
-        #        cache/redis_cache.cpp
+        microsvc_controller.cpp
+        foundation/basic_controller.cpp
+        cache/redis_cache.cpp
         )
 
 set(MICROSERVICE_INCLUDE_DIR "foundation/include")

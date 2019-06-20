@@ -4,14 +4,7 @@
 #include <soci/soci.h>
 #include <soci/sqlite3/soci-sqlite3.h>
 
-#include "cpprest/containerstream.h"
-#include "cpprest/filestream.h"
-
-using namespace web;
-using namespace http;
-using namespace concurrency::streams;
-
-MicroserviceController::MicroserviceController(icache *cache) {
+MicroserviceController::MicroserviceController() {
 #ifdef _WIN32
     soci::session sql(*soci::factory_sqlite3(), "d:/tmp/microservice.db");
 #else
@@ -20,21 +13,48 @@ MicroserviceController::MicroserviceController(icache *cache) {
 
     soci::rowset<soci::row> rowset = (sql.prepare << "SELECT currency, value FROM Currency");
 
-    cache->add(new Currency(_XPLATSTR("USD"), 1));
+//    cache->add(new Currency("USD", 1));
+//
+//    for (auto &r : rowset) {
+//        cache->add(new Currency(r.get<std::string>(0),
+//                                r.get<double>(1)));
+//    }
+//
+//    this->cache = cache;
+}
 
-    for (auto &r : rowset) {
-        cache->add(new Currency(utility::conversions::to_string_t(r.get<std::string>(0)),
-                                r.get<double>(1)));
+restinio::request_handling_status_t MicroserviceController::handle(restinio::request_handle_t req) {
+    cout << "Handler" <<
+         std::endl;
+
+    if (restinio::http_method_get() == req->header().method()) {
+        cout << "GET" <<
+             std::endl;
+        if (req->header().path() == "/convert") {
+
+        } else {
+            try {
+                cout << "Loading file" << req->header().path() << std::endl;
+
+                auto sf = restinio::sendfile(req->header().path());
+
+                return req->create_response().append_header(restinio::http_field::content_type,
+                                                            "text/html; charset=utf-8").set_body(std::move(sf)).done();
+
+            }
+            catch (const std::exception &) {
+                return req->create_response(
+                        restinio::status_not_found()).connection_close().append_header_date_field().done();
+            }
+        }
     }
 
-    this->cache = cache;
+    return restinio::request_rejected();
+
 }
 
-void MicroserviceController::initRestOpHandlers() {
-    _listener.support(methods::GET, std::bind(&MicroserviceController::handleGet, this, std::placeholders::_1));
-}
-
-void MicroserviceController::handleGet(http_request request) {
+/*
+void MicroserviceController::handle(http_request request) {
     auto path = requestPath(request);
     if (!path.empty()) {
         if (path[0] == _XPLATSTR("convert")) {
@@ -75,3 +95,4 @@ void MicroserviceController::handleGet(http_request request) {
         request.reply(status_codes::NotFound);
     }
 }
+ */

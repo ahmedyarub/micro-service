@@ -48,7 +48,7 @@ make install
 Em seguida build com cmake e make
 
 Windows
-vcpkg install cpprestsdk cpprestsdk:x64-windows boost-random boost-random:x64-windows boost-filesystem boost-filesystem:x64-windows boost-format boost-format:x64-windows boost-log boost-log:x64-windows cpp-redis cpp-redis:x64-windows
+vcpkg install restinio restinio:x64-windows clara cpp-redis cpp-redis:x64-windows
 
 git clone https://github.com/SOCI/soci
 cd soci

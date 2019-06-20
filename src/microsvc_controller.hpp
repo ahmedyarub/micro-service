@@ -11,11 +11,9 @@ private:
     icache *cache;
 
 public:
-    explicit MicroserviceController(icache *cache);
+    explicit MicroserviceController();
 
     ~MicroserviceController() = default;
 
-    void handleGet(http_request request) override;
-
-    void initRestOpHandlers() override;
+    restinio::request_handling_status_t handle(restinio::request_handle_t req) override;
 };

@@ -1,13 +1,13 @@
 #pragma once
 
-#include <cpprest/http_msg.h>
+#include <restinio/all.hpp>
 
-using namespace web;
-using namespace http;
+#include <fmt/format.h>
+#include <clara.hpp>
 
 namespace cfx {
     class Controller {
     public:
-        virtual void handleGet(http_request message) = 0;
+        virtual restinio::request_handling_status_t handle(restinio::request_handle_t req) = 0;
     };
 }

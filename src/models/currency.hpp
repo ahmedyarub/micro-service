@@ -1,18 +1,18 @@
 #ifndef CURRENCY
 #define CURRENCY
 
-#include <utility>
+#include <string>
 
 using namespace std;
 
 class Currency {
 public:
-    utility::string_t currency{};
+    string currency{};
     double value;
 
     Currency() = default;
 
-    Currency(utility::string_t cur, double val) : currency{std::move(cur)}, value{val} {}
+    Currency(string cur, double val) : currency{std::move(cur)}, value{val} {}
 };
 
 
