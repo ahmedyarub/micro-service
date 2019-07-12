@@ -38,6 +38,6 @@ script:
     ./bootstrap-vcpkg.sh
     # Only build release libs to save time. We inject a new line first since some cmake files don't end with one.
     echo -e '\nset(VCPKG_BUILD_TYPE release)' >> ./triplets/${VCPKG_TRIPLET}.cmake
-    ./vcpkg restinio restinio:x64-windows clara cpp-redis cpp-redis:x64-windows json-dto json-dto:x64-windows
+    vcpkg install restinio restinio:x64-windows clara cpp-redis cpp-redis:x64-windows json-dto json-dto:x64-windows
     popd
   - cmake --build . -- -j${JOBS}
