@@ -4,7 +4,12 @@
 #include <soci/soci.h>
 #include <soci/sqlite3/soci-sqlite3.h>
 
-MicroserviceController::MicroserviceController() {
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+
+#include <boost/lexical_cast.hpp>
+
+MicroserviceController::MicroserviceController(icache *cache) {
 #ifdef _WIN32
     soci::session sql(*soci::factory_sqlite3(), "d:/tmp/microservice.db");
 #else
@@ -13,44 +18,73 @@ MicroserviceController::MicroserviceController() {
 
     soci::rowset<soci::row> rowset = (sql.prepare << "SELECT currency, value FROM Currency");
 
-//    cache->add(new Currency("USD", 1));
-//
-//    for (auto &r : rowset) {
-//        cache->add(new Currency(r.get<std::string>(0),
-//                                r.get<double>(1)));
-//    }
-//
-//    this->cache = cache;
+    cache->add(new Currency("USD", 1));
+
+    for (auto &r : rowset) {
+        cache->add(new Currency(r.get<std::string>(0),
+                                r.get<double>(1)));
+    }
+
+    this->cache = cache;
 }
 
 restinio::request_handling_status_t MicroserviceController::handle(restinio::request_handle_t req) {
-    cout << "Handler" <<
-         std::endl;
+    cout << "Handler" << std::endl;
 
     if (restinio::http_method_get() == req->header().method()) {
-        cout << "GET" <<
-             std::endl;
         if (req->header().path() == "/convert") {
+            Currency cur;
 
+            const auto query_parameters = restinio::parse_query(req->header().query());
+
+            rapidjson::StringBuffer response;
+            rapidjson::Writer<rapidjson::StringBuffer> writer(response);
+            writer.StartObject();
+
+            auto from_currency = cache->get(
+                    std::string{query_parameters["from"].data(), query_parameters["from"].size()});
+            auto to_currency = cache->get(std::string{query_parameters["to"].data(), query_parameters["to"].size()});
+            auto amount = boost::lexical_cast<double>(query_parameters["amount"]);
+
+            if (from_currency == nullptr || to_currency == nullptr) {
+                return req->create_response(restinio::status_not_found())
+                        .connection_close()
+                        .append_header_date_field()
+                        .done();
+            }
+
+            writer.Key("result");
+            writer.Double(from_currency->value / to_currency->value * amount);
+
+            writer.EndObject();
+
+            return req->create_response()
+                    .append_header(restinio::http_field::content_type, "text/html; charset=utf-8")
+                    .set_body(response.GetString())
+                    .done();
         } else {
             try {
-                cout << "Loading file" << req->header().path() << std::endl;
+                restinio::string_view_t filename = req->header().path().substr(1, req->header().path().size() - 1);
 
-                auto sf = restinio::sendfile(req->header().path());
+                cout << "Loading file " << filename << std::endl;
 
-                return req->create_response().append_header(restinio::http_field::content_type,
-                                                            "text/html; charset=utf-8").set_body(std::move(sf)).done();
+                auto sf = restinio::sendfile(filename);
 
+                return req->create_response()
+                        .append_header(restinio::http_field::content_type, "text/html; charset=utf-8")
+                        .set_body(std::move(sf))
+                        .done();
             }
             catch (const std::exception &) {
-                return req->create_response(
-                        restinio::status_not_found()).connection_close().append_header_date_field().done();
+                return req->create_response(restinio::status_not_found())
+                        .connection_close()
+                        .append_header_date_field()
+                        .done();
             }
         }
     }
 
     return restinio::request_rejected();
-
 }
 
 /*

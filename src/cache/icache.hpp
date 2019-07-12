@@ -8,14 +8,14 @@
 
 class icache {
 private:
-    map<utility::string_t, Currency *> cache;
+    map<string, Currency *> cache;
 
 public:
     virtual void add(Currency *currency) {
         cache[currency->currency] = currency;
     }
 
-    virtual Currency *get(const utility::string_t &currency) {
+    virtual Currency *get(const string &currency) {
         return cache[currency];
     }
 };

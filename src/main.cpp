@@ -16,13 +16,7 @@ namespace di = boost::di;
 //
 
 template<typename Server_Traits>
-void run_server() {
-//    di::bind<icache>().to<rediscache>();
-//
-//    auto *controller = di::make_injector().create<MicroserviceController *>();
-
-    auto *controller = new MicroserviceController();
-
+void run_server(MicroserviceController *controller) {
     restinio::run(
             restinio::on_thread_pool<Server_Traits>(40)
                     .port(8088)
@@ -36,7 +30,10 @@ void run_server() {
 
 int main(int argc, const char *argv[]) {
     try {
-        run_server<restinio::default_traits_t>();
+        di::bind<icache>().to<rediscache>();
+        auto *controller = di::make_injector().create<MicroserviceController *>();
+
+        run_server<restinio::default_traits_t>(controller);
     }
     catch (const std::exception &ex) {
         std::cerr << "Error: " << ex.what() << std::endl;

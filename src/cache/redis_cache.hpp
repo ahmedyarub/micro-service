@@ -1,8 +1,6 @@
 #ifndef PROJECT_REDIS_CACHE_HPP
 #define PROJECT_REDIS_CACHE_HPP
 
-
-#include <cpprest/details/basic_types.h>
 #include "../models/currency.hpp"
 #include "icache.hpp"
 #include <cpp_redis/cpp_redis>
@@ -15,7 +13,7 @@ public:
 
     void add(Currency *currency) override;
 
-    Currency *get(const utility::string_t &currency) override;
+    Currency *get(const string &currency) override;
 };
 
 

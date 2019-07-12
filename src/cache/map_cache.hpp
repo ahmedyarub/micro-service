@@ -9,12 +9,12 @@
 
 class mapcache : icache {
 private:
-    map<utility::string_t, Currency *> cache;
+    map<string, Currency *> cache;
 
 public:
     void add(Currency *currency);
 
-    Currency *get(const utility::string_t &currency);
+    Currency *get(const string &currency);
 };
 
 

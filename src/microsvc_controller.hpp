@@ -11,7 +11,7 @@ private:
     icache *cache;
 
 public:
-    explicit MicroserviceController();
+    explicit MicroserviceController(icache *cache);
 
     ~MicroserviceController() = default;
 

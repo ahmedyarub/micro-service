@@ -2,14 +2,6 @@ cmake_minimum_required(VERSION 3.6)
 
 project(micro-service)
 
-if (COMMAND cmake_policy)
-    cmake_policy(SET CMP0003 NEW)
-endif (COMMAND cmake_policy)
-
-if (POLICY CMP0012)
-    CMAKE_POLICY(SET CMP0012 NEW)
-endif ()
-
 find_package(unofficial-http-parser REQUIRED)
 
 find_package(fmt CONFIG REQUIRED)
@@ -29,18 +21,20 @@ set(LIB_SUFFIX "64")
 find_package(Soci REQUIRED COMPONENTS sqlite3 CONFIGS "SOCI.cmake")
 if (WIN32)
     set(SOCI_LIBS SOCI::soci_core_static SOCI::soci_sqlite3_static)
+    ADD_DEFINITIONS(-D_WIN32_WINDOWS)
+    ADD_DEFINITIONS(-D_WINSOCK_DEPRECATED_NO_WARNINGS)
 else ()
     set(SOCI_LIBS SOCI::soci_core SOCI::soci_sqlite3)
 endif ()
 
+find_package(json-dto CONFIG REQUIRED)
+
 set(OPENSSL_VERSION "1.0.1")
 
 ADD_DEFINITIONS(-DBOOST_LOG_DYN_LINK)
-ADD_DEFINITIONS(-D_WIN32_WINDOWS)
 ADD_DEFINITIONS(-D_TURN_OFF_PLATFORM_STRING=OFF)
-ADD_DEFINITIONS(-D_WINSOCK_DEPRECATED_NO_WARNINGS)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -63,4 +57,5 @@ target_link_libraries(${PROJECT_NAME}
         fmt::fmt-header-only
         cpp_redis
         tacopie
+        json-dto::json-dto
         )
