@@ -23,6 +23,8 @@ if (WIN32)
     set(SOCI_LIBS SOCI::soci_core_static SOCI::soci_sqlite3_static)
     ADD_DEFINITIONS(-D_WIN32_WINDOWS)
     ADD_DEFINITIONS(-D_WINSOCK_DEPRECATED_NO_WARNINGS)
+    ADD_DEFINITIONS(-D_HAS_STD_BYTE=0)
+    ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
 else ()
     set(SOCI_LIBS SOCI::soci_core SOCI::soci_sqlite3)
 endif ()
@@ -46,7 +48,7 @@ add_executable(${PROJECT_NAME}
         )
 
 set(MICROSERVICE_INCLUDE_DIR "foundation/include")
-set(SOCI_INCLUDE_DIR "C:/Program Files/SOCI/include")
+set(SOCI_INCLUDE_DIR "C:/Program Files (x86)/SOCI/include")
 
 include_directories(${MICROSERVICE_INCLUDE_DIR})
 include_directories(${SOCI_INCLUDE_DIR})

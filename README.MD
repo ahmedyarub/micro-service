@@ -48,7 +48,7 @@ make install
 Em seguida build com cmake e make
 
 Windows
-vcpkg install restinio restinio:x64-windows clara cpp-redis cpp-redis:x64-windows
+vcpkg install restinio restinio:x64-windows clara cpp-redis cpp-redis:x64-windows json-dto json-dto:x64-windows
 
 git clone https://github.com/SOCI/soci
 cd soci

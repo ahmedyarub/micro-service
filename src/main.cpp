@@ -1,7 +1,3 @@
-/*
-	Simple example using sendfile facility.
-*/
-
 #include <iostream>
 
 #include "di.hpp"
