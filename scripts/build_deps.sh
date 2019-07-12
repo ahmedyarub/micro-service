@@ -4,6 +4,8 @@ JOBS=${JOBS:-`cat /proc/cpuinfo | grep processor | wc -l`}
 mkdir -p built_deps
 mkdir -p deps
 
+sudo apt instal  http-parser
+
 sudo make install
 cd ../../
 
