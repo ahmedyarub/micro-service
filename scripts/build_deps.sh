@@ -24,7 +24,7 @@ if [ ! -d "built_deps/soci" ]; then
     git clone git://github.com/SOCI/soci.git
     cd ../built_deps
     mkdir -p soci && cd soci
-    cmake -DWITH_SQLITE3=ON -DSOCI_TESTS=OFF -DSOCI_CXX_C11=ON ../../deps/soci
+    cmake -DWITH_SQLITE3=ON -DWITH_MYSQL=OFF -DSOCI_TESTS=OFF ..
     make -j${JOBS}
 else
     cd built_deps/soci/
