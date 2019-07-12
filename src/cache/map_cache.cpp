@@ -1,4 +1,3 @@
-#include <cpprest/details/basic_types.h>
 #include "../models/currency.hpp"
 #include <map>
 #include "map_cache.hpp"

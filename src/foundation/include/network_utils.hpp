@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cpprest/details/basic_types.h>
 #include "std_micro_service.hpp"
 
 using namespace boost::asio;

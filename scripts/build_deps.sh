@@ -4,18 +4,6 @@ JOBS=${JOBS:-`cat /proc/cpuinfo | grep processor | wc -l`}
 mkdir -p built_deps
 mkdir -p deps
 
-if [ ! -d "built_deps/cpprestsdk" ]; then
-    cd deps
-    git clone https://github.com/Microsoft/cpprestsdk
-    cd cpprestsdk
-    git submodule update --init -- Release/libs/websocketpp
-    cd ../../built_deps
-    mkdir -p cpprestsdk && cd cpprestsdk
-    cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF -DBUILD_SAMPLES=OFF ../../deps/cpprestsdk
-    make -j${JOBS}
-else
-    cd built_deps/cpprestsdk/
-fi
 sudo make install
 cd ../../
 

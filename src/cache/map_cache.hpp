@@ -2,7 +2,6 @@
 #define PROJECT_MAP_CACHE_HPP
 
 
-#include <cpprest/details/basic_types.h>
 #include "../models/currency.hpp"
 #include "icache.hpp"
 #include <map>

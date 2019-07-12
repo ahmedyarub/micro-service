@@ -18,16 +18,6 @@ wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/5.2.4/f
 flyway -locations=filesystem:migrations/sql/ -url=jdbc:sqlite:/tmp/microservice.db -user= -password= migrate
 
 cd /tmp
-git clone https://github.com/Microsoft/cpprestsdk
-cd cpprestsdk
-git submodule update --init -- Release/libs/websocketpp
-mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF -DBUILD_SAMPLES=OFF
-make -j4
-make install
-rm -Rf /tmp/cpprestsdk
-
-cd /tmp
 git clone git://github.com/SOCI/soci.git
 cd soci/
 mkdir build

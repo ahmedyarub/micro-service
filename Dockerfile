@@ -11,16 +11,6 @@ RUN cd /tmp && \
 RUN flyway -locations=filesystem:/tmp/db/migrations/sql/ -url=jdbc:sqlite:/tmp/microservice.db -user= -password=  migrate
 
 RUN cd /tmp && \
-    git clone https://github.com/Microsoft/cpprestsdk && \
-    cd cpprestsdk && \
-    git submodule update --init -- Release/libs/websocketpp && \
-    mkdir build && cd build && \
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF -DBUILD_SAMPLES=OFF && \
-    make -j4 && \
-    make install && \
-    rm -Rf /tmp/cpprestsdk
-
-RUN cd /tmp && \
     git clone git://github.com/SOCI/soci.git && \
     mkdir soci/build && \
     cd soci/build && \
