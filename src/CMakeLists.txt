@@ -6,6 +6,8 @@ find_package(unofficial-http-parser REQUIRED)
 
 find_package(fmt CONFIG REQUIRED)
 
+find_package(unofficial-http-parser REQUIRED)
+
 find_path(CLARA_INCLUDE_DIR include/clara.hpp)
 if (CLARA_INCLUDE_DIR STREQUAL "CLARA_INCLUDE_DIR-NOTFOUND")
     message(FATAL_ERROR "Could not find Clara.")
