@@ -10,8 +10,9 @@ http://127.0.0.1:8088/convert?from=USD&to=EUR&amount=123.45
 Obs: o IP no Docker pode ser diferente!
 
 Instalação (Ubuntu Bionic):
+./vcpkg install http-parser fmt restinio clara cpp-redis json-dto SQLite3 boost-lexical-cast boost-math
 
-sudo apt install build-essential openssl libssl-dev pkg-config libboost-all-dev sqlite3 libsqlite3-dev http_parser -y
+sudo apt install build-essential openssl libssl-dev pkg-config -y
 
 wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/5.2.4/flyway-commandline-5.2.4-linux-x64.tar.gz | tar xvz && sudo ln -s pwd/flyway-5.2.4/flyway /usr/local/bin
 
@@ -38,7 +39,7 @@ make install
 Em seguida build com cmake e make
 
 Windows
-vcpkg install restinio restinio:x64-windows clara cpp-redis cpp-redis:x64-windows json-dto json-dto:x64-windows
+vcpkg install restinio restinio:x64-windows clara cpp-redis cpp-redis:x64-windows json-dto json-dto:x64-windows SQLite3:x64-windows boost-lexical-cast:x64-windows boost-math:x64-windows
 
 git clone https://github.com/SOCI/soci
 cd soci

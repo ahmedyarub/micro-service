@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.14.5)
 
 project(micro-service)
 
@@ -16,20 +16,20 @@ include_directories(${CLARA_INCLUDE_DIR})
 
 find_package(restinio REQUIRED)
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(cpp-redis REQUIRED)
-
 set(LIB_SUFFIX "64")
-find_package(Soci REQUIRED COMPONENTS sqlite3 CONFIGS "SOCI.cmake")
 if (WIN32)
     set(SOCI_LIBS SOCI::soci_core_static SOCI::soci_sqlite3_static)
     ADD_DEFINITIONS(-D_WIN32_WINDOWS)
     ADD_DEFINITIONS(-D_WINSOCK_DEPRECATED_NO_WARNINGS)
     ADD_DEFINITIONS(-D_HAS_STD_BYTE=0)
     ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
+    set(SOCI_INCLUDE_DIR "C:/Program Files (x86)/SOCI/include")
 else ()
     set(SOCI_LIBS SOCI::soci_core SOCI::soci_sqlite3)
+    set(CMAKE_MODULE_PATH "/usr/cmake")
 endif ()
+
+find_package(Soci REQUIRED COMPONENTS sqlite3 CONFIGS "SOCI.cmake")
 
 find_package(json-dto CONFIG REQUIRED)
 
@@ -50,7 +50,6 @@ add_executable(${PROJECT_NAME}
         )
 
 set(MICROSERVICE_INCLUDE_DIR "foundation/include")
-set(SOCI_INCLUDE_DIR "C:/Program Files (x86)/SOCI/include")
 
 include_directories(${MICROSERVICE_INCLUDE_DIR})
 include_directories(${SOCI_INCLUDE_DIR})
@@ -59,7 +58,7 @@ target_link_libraries(${PROJECT_NAME}
         ${SOCI_LIBS}
         fmt::fmt
         fmt::fmt-header-only
-        cpp_redis
-        tacopie
+        ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/libcpp_redis.a
+        ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/libtacopie.a
         json-dto::json-dto
         )
