@@ -58,7 +58,7 @@ target_link_libraries(${PROJECT_NAME}
         ${SOCI_LIBS}
         fmt::fmt
         fmt::fmt-header-only
-        ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/libcpp_redis.a
-        ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/libtacopie.a
+        cpp_redis
+        tacopie
         json-dto::json-dto
         )

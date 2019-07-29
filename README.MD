@@ -7,12 +7,14 @@ docker run -it microservice:latest
 Ex de URL de Teste:
 http://127.0.0.1:8088/convert?from=USD&to=EUR&amount=123.45
 
-Obs: o IP no Docker pode ser diferente!
-
 Instalação (Ubuntu Bionic):
 ./vcpkg install http-parser fmt restinio clara cpp-redis json-dto SQLite3 boost-lexical-cast boost-math
 
-sudo apt install build-essential openssl libssl-dev pkg-config -y
+apt sudo update && \
+    sudo apt install software-properties-common -y && \
+    sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y && \
+    sudo apt update && \
+    sudo apt install g++-9 gcc-9 curl unzip tar wget build-essential git openssl libssl-dev pkg-config -y
 
 wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/5.2.4/flyway-commandline-5.2.4-linux-x64.tar.gz | tar xvz && sudo ln -s pwd/flyway-5.2.4/flyway /usr/local/bin
 
@@ -23,18 +25,9 @@ git clone git://github.com/SOCI/soci.git
 cd soci/
 mkdir build
 cd build
-cmake -DWITH_SQLITE3=ON -DWITH_MYSQL=OFF -DSOCI_TESTS=OFF ..
+cmake -DCMAKE_TOOLCHAIN_FILE=~/Documents/vcpkg/scripts/buildsystems/vcpkg.cmake -DWITH_SQLITE3=ON -DWITH_MYSQL=OFF -DSOCI_TESTS=OFF -DCMAKE_INSTALL_PREFIX:PATH=/usr .. && \
 make
 sudo make install
-
-cd /tmp
-git clone https://github.com/Cylix/cpp_redis.git
-cd cpp_redis
-git submodule init && git submodule update
-mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make
-make install
 
 Em seguida build com cmake e make
 
