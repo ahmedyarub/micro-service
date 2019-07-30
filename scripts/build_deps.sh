@@ -6,18 +6,20 @@ mkdir -p deps
 
 if [ ! -f "/usr/local/bin/flyway" ]
 then
-    cd deps
+    cd built_deps
     wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/5.2.4/flyway-commandline-5.2.4-linux-x64.tar.gz | tar xvz
     sudo ln -s $(pwd)/flyway-5.2.4/flyway /usr/local/bin
     cd ..
 fi
 flyway -locations=filesystem:./db/migrations/sql/ -url=jdbc:sqlite:/tmp/microservice.db -user= -password=  migrate
 
-if [ ! -f "/opt/cmake" ]
+CMAKEVERSION=$(cmake --version | awk 'NR==1{print $3}')
+if [ "$CMAKEVERSION" != "3.14.5" ]
 then
     cd deps
     wget https://cmake.org/files/v3.14/cmake-3.14.5-Linux-x86_64.sh
     sh cmake-3.14.5-Linux-x86_64.sh --prefix=/opt/cmake --skip-license
+    sudo rm /usr/bin/cmake
     sudo ln -s /opt/cmake/bin/cmake /usr/bin/cmake
 fi
 cd ../
