@@ -4,7 +4,7 @@ matrix:
     - os: linux
       dist: bionic
       sudo: true
-      compiler: gcc
+      compiler: /usr/bin/gcc
       cache:
         directories:
           - ${TRAVIS_BUILD_DIR}/deps
