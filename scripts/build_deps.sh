@@ -9,7 +9,7 @@ then
     cd built_deps
     wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/5.2.4/flyway-commandline-5.2.4-linux-x64.tar.gz | tar xvz
     sudo ln -s $(pwd)/flyway-5.2.4/flyway /usr/local/bin
-    cd ..
+    cd "${TRAVIS_BUILD_DIR}"
 fi
 flyway -locations=filesystem:./db/migrations/sql/ -url=jdbc:sqlite:/tmp/microservice.db -user= -password=  migrate
 
@@ -21,11 +21,9 @@ then
     ./bootstrap-vcpkg.sh
     export VCPKG_TRIPLET=x64-linux && \
     echo '\nset(VCPKG_BUILD_TYPE release)' >> ./triplets/${VCPKG_TRIPLET}.cmake
-else
-    cd vcpkg
+    ./vcpkg install http-parser fmt restinio clara cpp-redis json-dto SQLite3 boost-lexical-cast boost-math
+    cd "${TRAVIS_BUILD_DIR}"
 fi
-./vcpkg install http-parser fmt restinio clara cpp-redis json-dto SQLite3 boost-lexical-cast boost-math
-cd ../../
 
 if [ ! -d "built_deps/soci" ]
 then
@@ -39,8 +37,4 @@ else
     cd built_deps/soci/
 fi
 sudo make install
-cd ../../
-
-#make -j${JOBS}
-#sudo make install
-#cd ../../
+cd "${TRAVIS_BUILD_DIR}"
