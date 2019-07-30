@@ -4,11 +4,6 @@ JOBS=${JOBS:-`cat /proc/cpuinfo | grep processor | wc -l`}
 mkdir -p built_deps
 mkdir -p deps
 
-sudo rm /usr/bin/gcc
-sudo ln -s /usr/bin/gcc-9 /usr/bin/gcc
-sudo rm /usr/bin/g++
-sudo ln -s /usr/bin/g++-9 /usr/bin/g++
-
 if [ ! -f "/usr/local/bin/flyway" ]
 then
     cd deps

@@ -25,6 +25,8 @@ matrix:
             - openssl
             - libssl-dev
             - pkg-config
+      env:
+        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
 before_script:
   - cd "${TRAVIS_BUILD_DIR}"
   - ./scripts/build_deps.sh
