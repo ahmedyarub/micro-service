@@ -1,4 +1,4 @@
-language: cpp
+language: bash
 
 services:
   - docker
@@ -7,7 +7,5 @@ matrix:
   include:
     - os: linux
       dist: bionic
-      sudo: required
-      compiler: gcc
 script:
-  - docker build .
+  - docker build -f Dockerfile_Linux -t micro-service-linux .
