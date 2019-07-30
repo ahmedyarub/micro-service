@@ -21,6 +21,7 @@ then
     ./bootstrap-vcpkg.sh
     export VCPKG_TRIPLET=x64-linux && \
     echo '\nset(VCPKG_BUILD_TYPE release)' >> ./triplets/${VCPKG_TRIPLET}.cmake
+    ./vcpkg integrate install
     ./vcpkg install http-parser fmt restinio clara cpp-redis json-dto SQLite3 boost-lexical-cast boost-math
     cd "${TRAVIS_BUILD_DIR}"
 fi

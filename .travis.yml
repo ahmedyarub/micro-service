@@ -1,45 +1,13 @@
 language: cpp
+
+services:
+  - docker
+
 matrix:
   include:
     - os: linux
       dist: bionic
-      sudo: true
+      sudo: required
       compiler: gcc
-      cache:
-        directories:
-          - ${TRAVIS_BUILD_DIR}/built_deps
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-9
-            - gcc-9
-            - curl
-            - unzip
-            - tar
-            - wget
-            - build-essential
-            - git
-            - openssl
-            - libssl-dev
-            - pkg-config
-      env:
-        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
-install:
-  - ls ${TRAVIS_BUILD_DIR}/built_deps
-  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
-  - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
-  - travis_retry wget --no-check-certificate https://cmake.org/files/v3.14/cmake-3.14.5-Linux-x86_64.tar.gz
-  - tar -xvf cmake-3.14.5-Linux-x86_64.tar.gz > /dev/null
-  - mv cmake-3.14.5-Linux-x86_64 cmake-install
-  - PATH=${DEPS_DIR}/cmake-install:${DEPS_DIR}/cmake-install/bin:$PATH
-before_script:
-  - cd "${TRAVIS_BUILD_DIR}"
-  - ./scripts/build_deps.sh
-  - mkdir build && cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/built_deps/vcpkg/scripts/buildsystems/vcpkg.cmake ..
-  - cd "${TRAVIS_BUILD_DIR}"
 script:
-  - cd build
-  - make -j${JOBS}
+  - docker build .
