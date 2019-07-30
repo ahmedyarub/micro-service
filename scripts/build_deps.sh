@@ -4,7 +4,7 @@ JOBS=${JOBS:-`cat /proc/cpuinfo | grep processor | wc -l`}
 mkdir -p built_deps
 mkdir -p deps
 
-if [ ! -f "${TRAVIS_BUILD_DIR}/build_deps/flyway-5.2.4/flyway" ]
+if [ ! -f "${TRAVIS_BUILD_DIR}/built_deps/flyway-5.2.4/flyway" ]
 then
     cd built_deps
     wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/5.2.4/flyway-commandline-5.2.4-linux-x64.tar.gz | tar xvz
