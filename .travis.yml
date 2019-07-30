@@ -29,7 +29,7 @@ before_script:
   - cd "${TRAVIS_BUILD_DIR}"
   - ./scripts/build_deps.sh
   - mkdir build && cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/deps/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/built_deps/vcpkg/scripts/buildsystems/vcpkg.cmake ..
   - cd ..
 script:
   - cmake --build . -- -j${JOBS}

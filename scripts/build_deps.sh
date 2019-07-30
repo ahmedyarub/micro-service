@@ -29,7 +29,7 @@ cd ../
 
 if [ ! -d "built_deps/vcpkg" ]
 then
-    cd deps
+    cd built_deps
     git clone git://github.com/microsoft/vcpkg.git
     cd vcpkg
     ./bootstrap-vcpkg.sh
@@ -47,7 +47,7 @@ then
     git clone git://github.com/SOCI/soci.git
     cd ../built_deps
     mkdir -p soci && cd soci
-    cmake -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/deps/vcpkg/scripts/buildsystems/vcpkg.cmake -DWITH_SQLITE3=ON -DWITH_MYSQL=OFF -DSOCI_TESTS=OFF -DCMAKE_INSTALL_PREFIX:PATH=/usr ../../deps/soci/
+    cmake -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/built_deps/vcpkg/scripts/buildsystems/vcpkg.cmake -DWITH_SQLITE3=ON -DWITH_MYSQL=OFF -DSOCI_TESTS=OFF -DCMAKE_INSTALL_PREFIX:PATH=/usr ../../deps/soci/
     make -j${JOBS}
 else
     cd built_deps/soci/
