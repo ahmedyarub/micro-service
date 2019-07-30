@@ -13,17 +13,6 @@ then
 fi
 flyway -locations=filesystem:./db/migrations/sql/ -url=jdbc:sqlite:/tmp/microservice.db -user= -password=  migrate
 
-CMAKEVERSION=$(cmake --version | awk 'NR==1{print $3}')
-if [ "$CMAKEVERSION" != "3.14.5" ]
-then
-    cd deps
-    wget https://cmake.org/files/v3.14/cmake-3.14.5-Linux-x86_64.sh
-    sh cmake-3.14.5-Linux-x86_64.sh --prefix=/opt/cmake --skip-license
-    sudo rm /usr/bin/cmake
-    sudo ln -s /opt/cmake/bin/cmake /usr/bin/cmake
-fi
-cd ../
-
 if [ ! -d "built_deps/vcpkg" ]
 then
     cd built_deps
