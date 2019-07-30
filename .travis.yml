@@ -40,4 +40,5 @@ before_script:
   - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/built_deps/vcpkg/scripts/buildsystems/vcpkg.cmake ..
   - cd "${TRAVIS_BUILD_DIR}"
 script:
-  - cmake --build . -- -j${JOBS}
+  - cd build
+  - make -j${JOBS}

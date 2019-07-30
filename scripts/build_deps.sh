@@ -4,13 +4,13 @@ JOBS=${JOBS:-`cat /proc/cpuinfo | grep processor | wc -l`}
 mkdir -p built_deps
 mkdir -p deps
 
-if [ ! -f "/usr/local/bin/flyway" ]
+if [ ! -f "build_deps/flyway-5.2.4/flyway" ]
 then
     cd built_deps
     wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/5.2.4/flyway-commandline-5.2.4-linux-x64.tar.gz | tar xvz
-    sudo ln -s $(pwd)/flyway-5.2.4/flyway /usr/local/bin
     cd "${TRAVIS_BUILD_DIR}"
 fi
+sudo ln -s $(pwd)/built_deps/flyway-5.2.4/flyway /usr/local/bin
 flyway -locations=filesystem:./db/migrations/sql/ -url=jdbc:sqlite:/tmp/microservice.db -user= -password=  migrate
 
 if [ ! -d "built_deps/vcpkg" ]
