@@ -45,7 +45,7 @@ COPY src /tmp/src
 
 RUN mkdir /tmp/src/build && \
     cd /tmp/src/build && \
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_TOOLCHAIN_FILE=/tmp/vcpkg/scripts/buildsystems/vcpkg.cmake .. && \
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/tmp/vcpkg/scripts/buildsystems/vcpkg.cmake .. && \
     cd .. && \
     cmake --build ./build --target all
 

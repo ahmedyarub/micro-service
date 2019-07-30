@@ -2,7 +2,7 @@ language: cpp
 matrix:
   include:
     - os: linux
-      dist: xenial
+      dist: bionic
       sudo: true
       compiler: gcc
       cache:
@@ -11,33 +11,24 @@ matrix:
           - ${TRAVIS_BUILD_DIR}/built_deps
       addons:
         apt:
+          sources:
+            - ubuntu-toolchain-r-test
           packages:
+            - g++-9
+            - gcc-9
+            - curl
+            - unzip
+            - tar
+            - wget
+            - build-essential
+            - git
             - openssl
             - libssl-dev
             - pkg-config
-            - libboost-all-dev
-            - sqlite3
-            - libsqlite3-dev
-
 before_script:
   - cd "${TRAVIS_BUILD_DIR}"
   - ./scripts/build_deps.sh
   - mkdir build && cd build
   - cmake ..
 script:
-  # Install vcpkg and dependencies
-  - |
-    set -e
-    cd /tmp/vcpkg
-    mkdir -p ${DEPS_DIR}/vcpkg
-    pushd ${DEPS_DIR}/vcpkg
-    git init
-    git remote add origin https://github.com/Microsoft/vcpkg.git
-    git fetch origin master
-    git checkout -b master origin/master
-    ./bootstrap-vcpkg.sh
-    # Only build release libs to save time. We inject a new line first since some cmake files don't end with one.
-    echo -e '\nset(VCPKG_BUILD_TYPE release)' >> ./triplets/${VCPKG_TRIPLET}.cmake
-    vcpkg install restinio restinio:x64-windows clara cpp-redis cpp-redis:x64-windows json-dto json-dto:x64-windows
-    popd
   - cmake --build . -- -j${JOBS}
