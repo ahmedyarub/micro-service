@@ -14,13 +14,14 @@ include_directories(${CLARA_INCLUDE_DIR})
 
 find_package(restinio REQUIRED)
 
+find_library(CPPREDIS_LIB cpp_redis)
+find_library(TACOPIE_LIB tacopie)
+
 set(LIB_SUFFIX "64")
+
 if (WIN32)
     set(SOCI_LIBS SOCI::soci_core_static SOCI::soci_sqlite3_static)
-    set(CPP_REDIS_LIBS
-            ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/cpp_redis.lib
-            ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/tacopie.lib
-            )
+
     ADD_DEFINITIONS(-D_WIN32_WINDOWS)
     ADD_DEFINITIONS(-D_WINSOCK_DEPRECATED_NO_WARNINGS)
     ADD_DEFINITIONS(-D_HAS_STD_BYTE=0)
@@ -28,9 +29,7 @@ if (WIN32)
     set(SOCI_INCLUDE_DIR "C:/Program Files (x86)/SOCI/include")
 else ()
     set(SOCI_LIBS SOCI::soci_core SOCI::soci_sqlite3)
-    set(CPP_REDIS_LIBS
-            ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/libcpp_redis.a
-            ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/libtacopie.a)
+
     set(CMAKE_MODULE_PATH "/usr/cmake")
 endif ()
 
@@ -63,6 +62,7 @@ target_link_libraries(${PROJECT_NAME}
         ${SOCI_LIBS}
         fmt::fmt
         fmt::fmt-header-only
-        ${CPP_REDIS_LIBS}
+        ${CPPREDIS_LIB}
+        ${TACOPIE_LIB}
         json-dto::json-dto
         )
