@@ -11,7 +11,7 @@
 
 MicroserviceController::MicroserviceController(icache *cache) {
 #ifdef _WIN32
-    soci::session sql(*soci::factory_sqlite3(), "d:/tmp/microservice.db");
+    soci::session sql(*soci::factory_sqlite3(), "c:/microservice.db");
 #else
     soci::session sql(*soci::factory_sqlite3(), "/tmp/microservice.db");
 #endif

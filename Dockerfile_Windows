@@ -44,22 +44,34 @@ RUN cd c:\vcpkg ;`
 RUN cd / ;`
     Invoke-WebRequest 'https://github.com/Kitware/CMake/releases/download/v3.14.5/cmake-3.14.5-win32-x86.zip' -OutFile cmake.zip;`
     Expand-Archive c:\cmake.zip -DestinationPath c:\ ;`
-    $env:Path += ';c:\cmake-3.14.5-win32-x86\bin'
+    $env:Path += ';c:\cmake-3.14.5-win32-x86\bin'; `
+    Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\' -Name Path -Value $env:PATH
 
 RUN cd /soci ;`
     mkdir build ;`
     cd build ;`
-    & "c:\cmake-3.14.5-win32-x86\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DWITH_SQLITE3=ON -DWITH_MYSQL=OFF -DSOCI_TESTS=OFF .. ;`
-    & "c:\cmake-3.14.5-win32-x86\bin\cmake.exe"  --build . --config Release --target install
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DWITH_SQLITE3=ON -DWITH_MYSQL=OFF -DSOCI_TESTS=OFF .. ;`
+    cmake  --build . --config Release --target install ;`
+    $env:Path += ';c:\Program Files (x86)\SOCI\bin\' ; `
+    Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\' -Name Path -Value $env:PATH
+
+RUN cd / ;`
+    Invoke-WebRequest 'https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/5.2.4/flyway-commandline-5.2.4-windows-x64.zip' -OutFile flyway.zip;`
+    Expand-Archive c:\flyway.zip -DestinationPath c:\flyway ;`
+    $env:Path += ';c:\flyway\flyway-5.2.4\'; `
+    Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\' -Name Path -Value $env:PATH
 
 COPY src C:\src
+COPY db C:\db
 
 RUN cd C:\src ;`
     mkdir build ;`
     cd build ;`
-    & "c:\cmake-3.14.5-win32-x86\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake .. ;`
-    & "c:\cmake-3.14.5-win32-x86\bin\cmake.exe"  --build . --config Release
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake .. ;`
+    cmake  --build . --config Release
+
+RUN flyway -locations=filesystem:c:/db/migrations/sql/ -url=jdbc:sqlite:c:/microservice.db -user= -password=  migrate
 
 EXPOSE 8088
 
-ENTRYPOINT ["c:\run.bat"]
+ENTRYPOINT C:\src\build\Release\micro-service.exe
