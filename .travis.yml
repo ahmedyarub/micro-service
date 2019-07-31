@@ -5,10 +5,10 @@ services:
 
 matrix:
   include:
-    #    - os: linux
-    #      dist: bionic
-    #      script:
-    #        - docker build -f Dockerfile_Linux -t micro-service-linux .
-    - os: windows
+    - os: linux
+      dist: bionic
       script:
-        - docker build -f Dockerfile_Windows -t micro-service-windows .
+        - docker build -f Dockerfile_Linux -t micro-service-linux .
+#    - os: windows
+#      script:
+#        - docker build -f Dockerfile_Windows -t micro-service-windows .

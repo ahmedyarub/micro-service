@@ -23,7 +23,8 @@ RUN C:\TEMP\Install.cmd C:\TEMP\vs_buildtools.exe --quiet --wait --norestart --n
     --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended`
     --installPath C:\BuildTools
 
-RUN Invoke-WebRequest 'https://github.com/git-for-windows/git/releases/download/v2.22.0.windows.1/MinGit-2.22.0-64-bit.zip' -OutFile MinGit.zip
+RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
+    Invoke-WebRequest 'https://github.com/git-for-windows/git/releases/download/v2.22.0.windows.1/MinGit-2.22.0-64-bit.zip' -OutFile MinGit.zip
 
 RUN Expand-Archive c:\MinGit.zip -DestinationPath c:\MinGit; `
     $env:PATH = $env:PATH + ';C:\MinGit\cmd\;C:\MinGit\cmd'; `
@@ -32,30 +33,35 @@ RUN Expand-Archive c:\MinGit.zip -DestinationPath c:\MinGit; `
 RUN cd / ;`
     git clone git://github.com/SOCI/soci.git
 
+RUN cd / ;`
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
+    Invoke-WebRequest 'https://github.com/Kitware/CMake/releases/download/v3.14.5/cmake-3.14.5-win64-x64.zip' -OutFile cmake.zip;`
+    Expand-Archive c:\cmake.zip -DestinationPath c:\ ;`
+    $env:Path += ';c:\cmake-3.14.5-win64-x64\bin'; `
+    Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\' -Name Path -Value $env:PATH
+
 RUN cd c:\ ;`
     git clone https://github.com/microsoft/vcpkg ;`
     cd vcpkg ;`
     .\bootstrap-vcpkg.bat ;`
     .\vcpkg.exe integrate install
 
+#RUN cd c:\vcpkg\triplets ;`
+#    Add-Content x64-windows.cmake 'set(VCPKG_BUILD_TYPE release)'
+
 RUN cd c:\vcpkg ;`
     .\vcpkg.exe install http-parser:x64-windows fmt:x64-windows restinio:x64-windows clara:x64-windows cpp-redis:x64-windows json-dto:x64-windows SQLite3:x64-windows boost-lexical-cast:x64-windows boost-math:x64-windows
-
-RUN cd / ;`
-    Invoke-WebRequest 'https://github.com/Kitware/CMake/releases/download/v3.14.5/cmake-3.14.5-win32-x86.zip' -OutFile cmake.zip;`
-    Expand-Archive c:\cmake.zip -DestinationPath c:\ ;`
-    $env:Path += ';c:\cmake-3.14.5-win32-x86\bin'; `
-    Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\' -Name Path -Value $env:PATH
 
 RUN cd /soci ;`
     mkdir build ;`
     cd build ;`
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DWITH_SQLITE3=ON -DWITH_MYSQL=OFF -DSOCI_TESTS=OFF .. ;`
-    cmake  --build . --config Release --target install ;`
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DWITH_SQLITE3=ON -DWITH_MYSQL=OFF -DSOCI_TESTS=OFF .. ;`
+    cmake --build . --config Release --target install ;`
     $env:Path += ';c:\Program Files (x86)\SOCI\bin\' ; `
     Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\' -Name Path -Value $env:PATH
 
 RUN cd / ;`
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
     Invoke-WebRequest 'https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/5.2.4/flyway-commandline-5.2.4-windows-x64.zip' -OutFile flyway.zip;`
     Expand-Archive c:\flyway.zip -DestinationPath c:\flyway ;`
     $env:Path += ';c:\flyway\flyway-5.2.4\'; `
@@ -67,7 +73,7 @@ COPY db C:\db
 RUN cd C:\src ;`
     mkdir build ;`
     cd build ;`
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake .. ;`
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake .. ;`
     cmake  --build . --config Release
 
 RUN flyway -locations=filesystem:c:/db/migrations/sql/ -url=jdbc:sqlite:c:/microservice.db -user= -password=  migrate
