@@ -6,8 +6,6 @@ find_package(unofficial-http-parser REQUIRED)
 
 find_package(fmt CONFIG REQUIRED)
 
-find_package(unofficial-http-parser REQUIRED)
-
 find_path(CLARA_INCLUDE_DIR include/clara.hpp)
 if (CLARA_INCLUDE_DIR STREQUAL "CLARA_INCLUDE_DIR-NOTFOUND")
     message(FATAL_ERROR "Could not find Clara.")
@@ -19,6 +17,10 @@ find_package(restinio REQUIRED)
 set(LIB_SUFFIX "64")
 if (WIN32)
     set(SOCI_LIBS SOCI::soci_core_static SOCI::soci_sqlite3_static)
+    set(CPP_REDIS_LIBS
+            ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/cpp_redis.lib
+            ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/tacopie.lib
+            )
     ADD_DEFINITIONS(-D_WIN32_WINDOWS)
     ADD_DEFINITIONS(-D_WINSOCK_DEPRECATED_NO_WARNINGS)
     ADD_DEFINITIONS(-D_HAS_STD_BYTE=0)
@@ -26,6 +28,9 @@ if (WIN32)
     set(SOCI_INCLUDE_DIR "C:/Program Files (x86)/SOCI/include")
 else ()
     set(SOCI_LIBS SOCI::soci_core SOCI::soci_sqlite3)
+    set(CPP_REDIS_LIBS
+            ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/libcpp_redis.a
+            ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/libtacopie.a)
     set(CMAKE_MODULE_PATH "/usr/cmake")
 endif ()
 
@@ -58,7 +63,6 @@ target_link_libraries(${PROJECT_NAME}
         ${SOCI_LIBS}
         fmt::fmt
         fmt::fmt-header-only
-        ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/libcpp_redis.a
-        ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/libtacopie.a
+        ${CPP_REDIS_LIBS}
         json-dto::json-dto
         )

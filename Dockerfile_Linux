@@ -30,12 +30,13 @@ RUN cd /tmp && \
 RUN cd /tmp/vcpkg && \
     export VCPKG_TRIPLET=x64-linux && \
     echo '\nset(VCPKG_BUILD_TYPE release)' >> ./triplets/${VCPKG_TRIPLET}.cmake && \
+    ./vcpkg integration install && \
     ./vcpkg install http-parser fmt restinio clara cpp-redis json-dto SQLite3 boost-lexical-cast boost-math
 
 RUN cd /tmp && \
     mkdir soci/build && \
     cd soci/build && \
-    cmake -DCMAKE_TOOLCHAIN_FILE=/tmp/vcpkg/scripts/buildsystems/vcpkg.cmake -DWITH_SQLITE3=ON -DWITH_MYSQL=OFF -DSOCI_TESTS=OFF -DCMAKE_INSTALL_PREFIX:PATH=/usr .. && \
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/tmp/vcpkg/scripts/buildsystems/vcpkg.cmake -DWITH_SQLITE3=ON -DWITH_MYSQL=OFF -DSOCI_TESTS=OFF -DCMAKE_INSTALL_PREFIX:PATH=/usr .. && \
     make -j4 && \
     make install && \
     rm -Rf /tmp/soci
