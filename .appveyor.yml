@@ -16,4 +16,4 @@ test_script:
   - ps: |
       docker run --name lb -d -p 8088:8088 micro-service-windows
       docker ps
-      Invoke-WebRequest -Uri http://localhost:8088/convert?from=USD&to=EUR&amount=123.45 -TimeoutSec 5
+      Invoke-WebRequest -Uri http://localhost:8088/convert?from=USD"&"to=EUR"&"amount=123.45 -TimeoutSec 5
