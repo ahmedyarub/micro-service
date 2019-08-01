@@ -1,0 +1,19 @@
+version: 1.0.{build}
+
+platform: x64
+
+image:
+  - Visual Studio 2017
+
+install:
+  - ps: Write-Host Server version $(gp 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion').BuildLabEx
+  - docker version
+
+build_script:
+  - cmd: docker build -t micro-service-windows -f Dockerfile_Windows .
+
+test_script:
+  - ps: |
+      docker run --name lb -d -p 8088:8088 micro-service-windows
+      docker ps
+      Invoke-WebRequest -Uri http://localhost:8080 -TimeoutSec 5
