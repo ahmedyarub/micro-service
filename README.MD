@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/ahmedyarub/micro-service.svg?branch=master)](https://travis-ci.com/ahmedyarub/micro-service)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/ahmedyarub/micro-service)](https://ci.appveyor.com/project/ahmedyarub/micro-service)
 
 Docker:
 docker build . --tag=microservice:latest
