@@ -50,7 +50,7 @@ RUN cd c:\ ;`
 #    Add-Content x64-windows.cmake 'set(VCPKG_BUILD_TYPE release)'
 
 RUN cd c:\vcpkg ;`
-    .\vcpkg.exe install http-parser:x64-windows fmt:x64-windows restinio:x64-windows clara:x64-windows cpp-redis:x64-windows json-dto:x64-windows SQLite3:x64-windows boost-lexical-cast:x64-windows boost-math:x64-windows
+    .\vcpkg.exe install http-parser:x64-windows fmt:x64-windows restinio:x64-windows clara:x64-windows cpp-redis:x64-windows json-dto:x64-windows SQLite3:x64-windows boost-lexical-cast:x64-windows boost-math:x64-windows boost-di:x64-windows
 
 RUN cd /soci ;`
     mkdir build ;`

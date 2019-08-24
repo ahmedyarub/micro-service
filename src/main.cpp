@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "di.hpp"
+#include "boost/di.hpp"
 
 #include "microsvc_controller.hpp"
 #include "cache/redis_cache.hpp"

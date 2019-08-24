@@ -9,7 +9,7 @@ Ex de URL de Teste:
 http://127.0.0.1:8088/convert?from=USD&to=EUR&amount=123.45
 
 Instalação (Ubuntu Bionic):
-./vcpkg install http-parser fmt restinio clara cpp-redis json-dto SQLite3 boost-lexical-cast boost-math
+./vcpkg install http-parser fmt restinio clara cpp-redis json-dto SQLite3 boost-lexical-cast boost-math boost-di
 
 apt sudo update && \
     sudo apt install software-properties-common -y && \
@@ -33,7 +33,7 @@ sudo make install
 Em seguida build com cmake e make
 
 Windows
-vcpkg install restinio restinio:x64-windows clara cpp-redis cpp-redis:x64-windows json-dto json-dto:x64-windows SQLite3:x64-windows boost-lexical-cast:x64-windows boost-math:x64-windows
+vcpkg install restinio restinio:x64-windows clara cpp-redis cpp-redis:x64-windows json-dto json-dto:x64-windows SQLite3:x64-windows boost-lexical-cast:x64-windows boost-math:x64-windows boost-di:x64-windows
 
 git clone https://github.com/SOCI/soci
 cd soci

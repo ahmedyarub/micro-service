@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14.5)
 
 project(micro-service)
 
-find_package(unofficial-http-parser REQUIRED)
+find_package(unofficial-http-parser CONFIG REQUIRED)
 
 find_package(fmt CONFIG REQUIRED)
 

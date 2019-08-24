@@ -8,7 +8,7 @@ using namespace std;
 class Currency {
 public:
     string currency{};
-    double value;
+    double value{};
 
     Currency() = default;
 
